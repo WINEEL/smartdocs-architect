@@ -4,3 +4,4 @@ chromadb
 pypdf
 python-docx
 python-dotenv
+watchdog # A "guard dog" that automatically refreshes the app instantly when code or data files are modified.
