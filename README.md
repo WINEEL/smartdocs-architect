@@ -1,28 +1,57 @@
 # SmartDocs Architect
-> Cloud-Hosted AI-Powered Document Intelligence System
+> AWS-Hosted AI-Powered Document Intelligence System
 
 ## Overview
-SmartDocs Architect is a cloud-hosted AI-powered document intelligence system built using Retrieval-Augmented Generation (RAG). It allows users to upload documents, process them into vector embeddings, retrieve relevant context, and ask grounded questions based only on the uploaded content.
+SmartDocs Architect is an AWS-hosted AI-powered document intelligence system built using Retrieval-Augmented Generation (RAG). It allows users to upload documents, process them into vector embeddings, retrieve relevant context, and ask grounded questions based only on uploaded content.
 
+The current MVP is deployed on Amazon EC2 and designed as a cloud workload that can evolve into a scalable multi-instance architecture.
 
 ## Features
-- Upload PDF, DOCX, and TXT files
+- Upload PDF and TXT files
 - Extract and chunk document text
-- Generate embeddings using Gemini
+- Generate embeddings using Gemini API
 - Store vectors in ChromaDB
 - Ask grounded questions through a chat interface
 - Display retrieved source chunks for transparency
-- Deployable on Streamlit Community Cloud
-
+- Clear knowledge base
+- Deploy on AWS EC2
 
 ## Architecture
-### Layers
+
+### MVP Architecture (Implemented)
+
+```text
+User
+  ↓
+Internet
+  ↓
+AWS EC2 Instance
+  ↓
+Streamlit Application
+  ↓
+Gemini API + Local ChromaDB
+```
+
+### Target Scalable Architecture (Proposed)
+
+```text
+User
+  ↓
+Application Load Balancer (ALB)
+  ↓
+Auto Scaling Group (EC2 Instances)
+  ↓
+Application Layer
+  ↓
+Amazon S3 for document storage
+```
+
+### Architectural Layers
 1. Presentation Layer: Streamlit UI  
 2. Processing Layer: Parsing and chunking  
 3. AI Layer: Gemini embeddings and answer generation  
-4. Data Layer: Vector storage using ChromaDB  
-5. Deployment Layer: Cloud-hosted web app  
-
+4. Data Layer: ChromaDB vector storage  
+5. Infrastructure Layer: AWS EC2 within AWS networking  
 
 ## Tech Stack
 - Python  
@@ -30,11 +59,11 @@ SmartDocs Architect is a cloud-hosted AI-powered document intelligence system bu
 - Gemini API  
 - ChromaDB  
 - PyPDF  
-- python-docx  
 - python-dotenv  
-
+- AWS EC2  
 
 ## Project Structure
+
 ```text
 SmartDocs Architect/
 │
@@ -43,7 +72,6 @@ SmartDocs Architect/
 ├── README.md
 ├── .gitignore
 ├── .env.example
-├── .env
 │
 ├── app/
 │   ├── __init__.py
@@ -58,11 +86,9 @@ SmartDocs Architect/
 │   ├── architecture-notes.md
 │   └── demo-script.md
 │
-├── data/
 ├── screenshots/
 └── chroma_db/
 ```
-
 
 ## System Flow
 1. User uploads one or more documents  
@@ -76,88 +102,87 @@ SmartDocs Architect/
 9. Gemini generates a grounded answer  
 10. Source chunks are displayed to the user  
 
+## Local Run
 
-## How to Run Locally
+### Clone repository
 
-### 1. Clone the repository
 ```bash
-git clone https://github.com/wineel/smartdocs-architect.git
+git clone https://github.com/WINEEL/smartdocs-architect.git
 cd smartdocs-architect
 ```
 
-### 2. Create and activate virtual environment
+### Create virtual environment
+
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-### 3. Install dependencies
+### Install dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Add environment variable
-Create a `.env` file in the root folder:
+### Add environment variable
 
 ```env
 GEMINI_API_KEY=your_api_key_here
 ```
 
-### 5. Run the application
+### Run locally
+
 ```bash
 streamlit run app.py
 ```
 
+## AWS Deployment
 
-## Deployment
-This project is designed for deployment using Streamlit Community Cloud.
+### EC2 Deployment Steps
+1. Launch Ubuntu EC2 instance  
+2. Configure Security Group:
+   - SSH (22) from My IP  
+   - Custom TCP (8501) from Anywhere  
+3. SSH into EC2  
+4. Clone repository  
+5. Install dependencies  
+6. Add `.env` file  
+7. Run:
 
-### Deployment Steps
-1. Push project to GitHub  
-2. Connect repository to Streamlit Cloud  
-3. Set `app.py` as main entry file  
-4. Add secret:
-
-```toml
-GEMINI_API_KEY = "your_api_key_here"
+```bash
+python -m streamlit run app.py --server.port 8501 --server.address 0.0.0.0
 ```
 
-5. Deploy  
+### Public Access
 
-
-## Demo Flow
-- Upload a PDF, DOCX, or TXT document  
-- Click **Process Documents**  
-- Ask a question related to uploaded content  
-- View grounded answer  
-- Expand retrieved source chunks  
-
+```text
+http://<EC2-Public-IP>:8501
+```
 
 ## Architecture Considerations
-- Environment variables are used for API key protection  
-- Local persistent vector store used for prototype simplicity  
-- Clear separation between ingestion, retrieval, and UI layers  
-- Designed for easy future extension  
-
+- API keys protected through environment variables  
+- Single-instance MVP for rapid delivery  
+- Security Group controls external access  
+- Clear separation between ingestion, retrieval, AI, and UI layers  
+- Scalable target architecture aligned with AWS best practices  
 
 ## Limitations
+- Single EC2 instance  
+- Local vector persistence  
 - No user authentication  
-- No multi-user document isolation  
+- No multi-user isolation  
 - Basic chunking strategy  
-- No reranking layer  
-
 
 ## Future Improvements
+- Elastic IP  
+- Application Load Balancer  
+- Auto Scaling Group  
+- Amazon S3 document storage  
+- Managed vector database  
 - User authentication  
-- Cloud-native vector database  
-- Better semantic reranking  
-- Support for additional document formats  
-- Multi-user workspace support  
-
 
 ## Author
 Wineel Wilson Dasari
-
 
 ## License
 Academic project for Solution Architecture coursework
