@@ -1,66 +1,73 @@
 # SmartDocs Architect
-> AWS-Hosted AI-Powered Document Intelligence System
+> Final Project for EMGT 308 - Solutions Architecture and the Cloud
 
-## Overview
-SmartDocs Architect is an AWS-hosted AI-powered document intelligence system built using Retrieval-Augmented Generation (RAG). It allows users to upload documents, process them into vector embeddings, retrieve relevant context, and ask grounded questions based only on uploaded content.
 
-The current MVP is deployed on Amazon EC2 and designed as a cloud workload that can evolve into a scalable multi-instance architecture.
+## Project Overview
+SmartDocs Architect is a cloud-hosted AI-powered document intelligence system built using Retrieval-Augmented Generation (RAG).
+
+It allows users to upload documents, convert them into vector embeddings, retrieve semantically relevant context, and ask grounded questions based only on uploaded content.
+
+The current MVP is deployed on AWS EC2 as a single-instance cloud workload.
+
+
+## Course Alignment
+This project demonstrates core EMGT 308 concepts:
+- Cloud deployment on AWS EC2
+- Workload hosting in cloud infrastructure
+- Layered solution architecture
+- Infrastructure and application separation
+- Scalable architecture planning
+
 
 ## Features
 - Upload PDF and TXT files
-- Extract and chunk document text
+- Parse and chunk document text
 - Generate embeddings using Gemini API
 - Store vectors in ChromaDB
-- Ask grounded questions through a chat interface
-- Display retrieved source chunks for transparency
+- Ask grounded questions
+- Display retrieved source chunks
 - Clear knowledge base
-- Deploy on AWS EC2
 
-## Architecture
 
-### MVP Architecture (Implemented)
+## Implemented Architecture
 
-```text
-User
-  ↓
-Internet
-  ↓
-AWS EC2 Instance
-  ↓
-Streamlit Application
-  ↓
-Gemini API + Local ChromaDB
-```
+|   |
+|:-:|
+| User |
+| &darr; |
+| Internet |
+| &darr; |
+| AWS EC2 Instance |
+| &darr; |
+| Streamlit Application |
+| &darr; |
+| Gemini API + ChromaDB |
 
-### Target Scalable Architecture (Proposed)
 
-```text
-User
-  ↓
-Application Load Balancer (ALB)
-  ↓
-Auto Scaling Group (EC2 Instances)
-  ↓
-Application Layer
-  ↓
-Amazon S3 for document storage
-```
+## Proposed Scalable Architecture
 
-### Architectural Layers
-1. Presentation Layer: Streamlit UI  
-2. Processing Layer: Parsing and chunking  
-3. AI Layer: Gemini embeddings and answer generation  
-4. Data Layer: ChromaDB vector storage  
-5. Infrastructure Layer: AWS EC2 within AWS networking  
+|   |
+|:-:|
+| User |
+| &darr; |
+| Application Load Balancer |
+| &darr; |
+| Auto Scaling Group |
+| &darr; |
+| Multiple EC2 Instances |
+| &darr; |
+| Amazon S3 |
 
-## Tech Stack
-- Python  
-- Streamlit  
-- Gemini API  
-- ChromaDB  
-- PyPDF  
-- python-dotenv  
-- AWS EC2  
+
+## Technology Stack
+- Python
+- Streamlit
+- Gemini API
+- ChromaDB
+- PyPDF
+- python-dotenv
+- AWS EC2
+
 
 ## Project Structure
 
@@ -83,106 +90,87 @@ SmartDocs Architect/
 │       └── helpers.py
 │
 ├── docs/
-│   ├── architecture-notes.md
-│   └── demo-script.md
+│   └── architecture-notes.md
 │
 ├── screenshots/
 └── chroma_db/
 ```
 
+
 ## System Flow
-1. User uploads one or more documents  
-2. Documents are parsed into text  
-3. Text is split into overlapping chunks  
-4. Chunks are converted into embeddings  
-5. Embeddings are stored in ChromaDB  
-6. User submits a question  
-7. Query is embedded  
-8. Relevant chunks are retrieved  
-9. Gemini generates a grounded answer  
-10. Source chunks are displayed to the user  
+1. Upload document  
+2. Parse text  
+3. Chunk content  
+4. Generate embeddings  
+5. Store vectors  
+6. Ask question  
+7. Retrieve relevant chunks  
+8. Generate grounded answer  
 
-## Local Run
-
-### Clone repository
-
-```bash
-git clone https://github.com/WINEEL/smartdocs-architect.git
-cd smartdocs-architect
-```
-
-### Create virtual environment
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-### Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### Add environment variable
-
-```env
-GEMINI_API_KEY=your_api_key_here
-```
-
-### Run locally
-
-```bash
-streamlit run app.py
-```
 
 ## AWS Deployment
+- Ubuntu EC2 instance
+- Security Group:
+  - SSH (22)
+  - TCP 8501
+- Streamlit served externally
 
-### EC2 Deployment Steps
-1. Launch Ubuntu EC2 instance  
-2. Configure Security Group:
-   - SSH (22) from My IP  
-   - Custom TCP (8501) from Anywhere  
-3. SSH into EC2  
-4. Clone repository  
-5. Install dependencies  
-6. Add `.env` file  
-7. Run:
+Mac / Linux: 
+```bash
+python3 -m streamlit run app.py --server.port 8501 --server.address 0.0.0.0
+```
 
+Windows: 
 ```bash
 python -m streamlit run app.py --server.port 8501 --server.address 0.0.0.0
 ```
 
-### Public Access
-
-```text
-http://<EC2-Public-IP>:8501
+```bash
+py -m streamlit run app.py --server.port 8501 --server.address 0.0.0.0
 ```
 
-## Architecture Considerations
-- API keys protected through environment variables  
-- Single-instance MVP for rapid delivery  
-- Security Group controls external access  
-- Clear separation between ingestion, retrieval, AI, and UI layers  
-- Scalable target architecture aligned with AWS best practices  
+
+## Public Access
+
+```text
+http://54.226.223.159:8501
+```
+
+
+## Screenshots
+
+### Application UI
+![Application UI](screenshots/app-ui.png)
+
+### AWS EC2 Deployment
+![AWS EC2](screenshots/aws-ec2-instance.png)
+
+### SSH Access
+![SSH](screenshots/ssh-connection.png)
+
+### Streamlit Running
+![Streamlit](screenshots/streamlit-running.png)
+
+
+## Video Demonstration
+
+[![SmartDocs Architect | Cloud-Hosted GenAI RAG Application](media/image.png "SmartDocs Architect | Cloud-Hosted GenAI RAG Application")](https://youtu.be/MLLgwZVvE4Q)
+
+YouTube: https://youtu.be/MLLgwZVvE4Q
+
 
 ## Limitations
-- Single EC2 instance  
-- Local vector persistence  
-- No user authentication  
-- No multi-user isolation  
-- Basic chunking strategy  
+- Single EC2 instance
+- Local vector persistence
+- No authentication
+
 
 ## Future Improvements
-- Elastic IP  
-- Application Load Balancer  
-- Auto Scaling Group  
-- Amazon S3 document storage  
-- Managed vector database  
-- User authentication  
+- Elastic IP
+- Load Balancer
+- Auto Scaling
+- Amazon S3 storage
+
 
 ## Author
 Wineel Wilson Dasari
-
-## License
-Academic project for Solution Architecture coursework
