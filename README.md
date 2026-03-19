@@ -139,17 +139,17 @@ http://54.226.223.159:8501
 
 ## Screenshots
 
-### Application UI
-![Application UI](screenshots/app-ui.png)
+- **Application UI**
+  <img src="screenshots/app-ui.png" alt="Application UI" style="max-width:100%; height:auto; border-radius:12px; box-shadow: 4px 4px 12px rgba(0,0,0,0.25);" />
 
-### AWS EC2 Deployment
-![AWS EC2](screenshots/aws-ec2-instance.png)
+- **AWS EC2 Deployment**
+  <img src="screenshots/aws-ec2-instance.png" alt="AWS EC2" style="max-width:100%; height:auto; border-radius:12px; box-shadow: 4px 4px 12px rgba(0,0,0,0.25);" />
 
-### SSH Access
-![SSH](screenshots/ssh-connection.png)
+- SSH Access
+  <img src="screenshots/ssh-connection.png" alt="SSH" style="max-width:100%; height:auto; border-radius:12px; box-shadow: 4px 4px 12px rgba(0,0,0,0.25);" />
 
-### Streamlit Running
-![Streamlit](screenshots/streamlit-running.png)
+- Streamlit Running
+  <img src="screenshots/streamlit-running.png" alt="Streamlit" style="max-width:100%; height:auto; border-radius:12px; box-shadow: 4px 4px 12px rgba(0,0,0,0.25);" />
 
 
 ## Video Demonstration
