@@ -174,3 +174,8 @@ YouTube: https://youtu.be/MLLgwZVvE4Q
 
 ## Author
 Wineel Wilson Dasari
+
+
+## License
+
+[MIT License](LICENSE)
