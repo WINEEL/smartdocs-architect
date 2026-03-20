@@ -10,6 +10,11 @@ It allows users to upload documents, convert them into vector embeddings, retrie
 The current MVP is deployed on AWS EC2 as a single-instance cloud workload.
 
 
+## Live Demo
+
+Cloud Deployment (AWS EC2): http://54.226.223.159:8501/
+
+
 ## Course Alignment
 This project demonstrates core EMGT 308 concepts:
 - Cloud deployment on AWS EC2
